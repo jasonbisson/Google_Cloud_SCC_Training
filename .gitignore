@@ -1,0 +1,9 @@
+*.terraform
+*.tfstate.*
+*.tfstate
+*json
+*.tfvars
+!terraform.example.tfvars
+.DS_Store
+*.zip
+kick*
