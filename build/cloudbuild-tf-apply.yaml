@@ -15,13 +15,6 @@
 timeout: 3600s
 substitutions:
   _POLICY_REPO: '/workspace/policy-library' # add path to policies here https://github.com/forseti-security/policy-library/blob/master/docs/user_guide.md#how-to-use-terraform-validator
-  _LOGGER_NAME: scc_logging # default value
-  _CRITICAL: "0" # default value
-  _HIGH: "50" # default value
-  _MEDIUM: "50" # default value
-  _FUNCTION_NAME: "scc_helper_updated"
-  _REPO_NAME: "test-repo"
-
 
 steps:
 - id: 'setup'
@@ -75,25 +68,6 @@ steps:
       echo "Setting up gcloud for impersonation ${tf_sa_email}"
       ./tf-wrapper.sh apply ${BRANCH_NAME}
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: 'call function'
-  entrypoint: 'bash'
-  waitFor: 
-  - 'deploy' 
-  args:
-  - '-c'
-  - |-
-    output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "critical_max": ${_CRITICAL}, "high_max": ${_HIGH}, "medium_max": $_MEDIUM}')
-    if [[ "$output" == *"Error"* ]] 
-    then
-        gcloud logging read "logName=projects/${PROJECT_ID}/logs/${_LOGGER_NAME}" 
-        echo "Build Failed"
-        exit 1
-    else
-        gcloud logging read "logName=projects/${PROJECT_ID}/logs/${_LOGGER_NAME}" 
-        echo "Build Passed"
-        
-    fi
  
 artifacts:
   objects:

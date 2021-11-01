@@ -13,6 +13,35 @@
 /******************************************
   Required variables
 *******************************************/
+variable "enable_apis" {
+  description = "Whether to actually enable the APIs. If false, this module is a no-op."
+  default     = "true"
+}
+
+variable "disable_services_on_destroy" {
+  description = "Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy"
+  default     = "false"
+  type        = string
+}
+
+variable "disable_dependent_services" {
+  description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services"
+  default     = "false"
+  type        = string
+}
+
+variable "activate_apis" {
+  description = "The list of apis to activate within the project"
+  default     = ["storage.googleapis.com","bigquery.googleapis.com","container.googleapis.com"]
+  type        = list(string)
+}
+
+variable "constraints" {
+  description = "The list of constraints to disable"
+  default     = ["compute.trustedImageProjects","compute.vmExternalIpAccess","compute.restrictSharedVpcSubnetworks","compute.restrictSharedVpcHostProjects","compute.restrictVpcPeering","compute.vmCanIpForward"]
+  type        = list(string)
+}
+
 variable "environment" {
   description = "Environment name of deployment"
   type        = string
@@ -71,7 +100,7 @@ variable "storage_bucket_labels" {
 
 variable "network" {
   description = "The VPC network to host the cluster in"
-  default     = "default"
+  default     = "gke-network"
 }
 
 variable "subnetwork" {
@@ -79,14 +108,14 @@ variable "subnetwork" {
   default     = "default"
 }
 
-variable "ip_range_pods" {
+variable "ip_range_pods_name" {
   description = "The secondary ip range to use for pods"
-  default = "192.168.64.0/22"
+  default     = "ip-range-pods"
 }
 
-variable "ip_range_services" {
+variable "ip_range_services_name" {
   description = "The secondary ip range to use for services"
-  default = "192.168.1.0/24"
+  default     = "ip-range-scv"
 }
 
 

@@ -1,8 +1,8 @@
-# Secure Command Center Evaluation
+# Secure Command Center Training
 
 ## Purpose
 
-This repository aims to help evaluate secure command center by detecting an insecure infrastructure deployment in a development environment.
+This repository aims to learn Security Command Center by detecting an insecure infrastructure findings in a development environment.
 
 ## Prerequisites
 
