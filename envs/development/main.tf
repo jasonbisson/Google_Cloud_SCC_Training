@@ -83,6 +83,7 @@ resource "google_storage_bucket" "batch_data" {
   name                        = "${var.project_id}-${var.bucket_name_prefix}-${random_id.random_suffix.hex}"
   location                    = var.default_region
   labels                      = var.storage_bucket_labels
+  force_destroy = true
   uniform_bucket_level_access = true
   versioning {
     enabled = true
@@ -139,15 +140,15 @@ module "gcp-network" {
 
   subnets = [
     {
-      subnet_name           = var.subnetwork
+      subnet_name           = "${var.project_id}-${var.subnetwork}"
       subnet_ip             = "10.0.0.0/17"
       subnet_region         = var.default_region
       subnet_private_access = "true"
-    },
+    }
   ]
 
   secondary_ranges = {
-    (var.subnetwork) = [
+    "${var.project_id}-${var.subnetwork}" = [
       {
         range_name    = var.ip_range_pods_name
         ip_cidr_range = "192.168.0.0/18"
