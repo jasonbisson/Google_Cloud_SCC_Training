@@ -70,8 +70,8 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
    ```
 1. Copy the development environment directory and cloud build configuration files
    ```
-   cp -r ../gcp-scc-validator/envs  .
-   cp ../gcp-scc-validator/build/*  . 
+   cp -r ../gcp_scc_training/envs  .
+   cp ../gcp_scc_training/build/*  . 
    ```
 1. Ensure wrapper script can be executed.
    ```
