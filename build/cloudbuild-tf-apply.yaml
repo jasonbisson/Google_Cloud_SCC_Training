@@ -20,8 +20,8 @@ substitutions:
   _HIGH: "50" # default value
   _MEDIUM: "50" # default value
   _FUNCTION_NAME: "scc_helper_updated"
-  _SCOPED_PROJECT: "prj-b-cicd-91a1"
-
+  _SCOPED_PROJECT: ""
+  
 steps:
 - id: 'setup'
   name: $_DEFAULT_REGION-docker.pkg.dev/$PROJECT_ID/$_GAR_REPOSITORY/terraform
@@ -74,13 +74,13 @@ steps:
       echo "Setting up gcloud for impersonation ${tf_sa_email}"
       ./tf-wrapper.sh apply ${BRANCH_NAME}
 
-- id: 'Secure Command Center validator'
+
+- id: 'scc validator'
   name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   waitFor: 
   - 'tf apply' 
   args:
-  - 'sleep 120'
   - '-c'
   - |-
     output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "scoped_project": "$_SCOPED_PROJECT", "critical_max": $_CRITICAL, "high_max": $_HIGH, "medium_max": $_MEDIUM }')
