@@ -62,6 +62,15 @@ module "org-policy4" {
   enforce     = false
 }
 
+module "org-policy5" {
+  source      = "terraform-google-modules/org-policy/google"
+  policy_for  = "project"
+  project_id  = var.project_id
+  constraint  = "iam.allowedPolicyMemberDomains"
+  policy_type = "boolean"
+  enforce     = false
+}
+
 resource "google_project_organization_policy" "project_policy_list_allow_all" {
   for_each     = toset(var.constraints)
   project    = var.project_id
