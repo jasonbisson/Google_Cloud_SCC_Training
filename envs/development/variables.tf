@@ -38,7 +38,7 @@ variable "activate_apis" {
 
 variable "constraints" {
   description = "The list of constraints to disable"
-  default     = ["compute.trustedImageProjects","compute.vmExternalIpAccess","compute.restrictSharedVpcSubnetworks","compute.restrictSharedVpcHostProjects","compute.restrictVpcPeering","compute.vmCanIpForward"]
+  default     = ["compute.trustedImageProjects","compute.vmExternalIpAccess","compute.restrictSharedVpcSubnetworks","compute.restrictSharedVpcHostProjects","compute.restrictVpcPeering","compute.vmCanIpForward","iam.allowedPolicyMemberDomains"]
   type        = list(string)
 }
 
