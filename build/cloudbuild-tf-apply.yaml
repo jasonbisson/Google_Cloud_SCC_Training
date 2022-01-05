@@ -15,13 +15,13 @@
 timeout: 3600s
 substitutions:
   _POLICY_REPO: '/workspace/policy-library' # add path to policies here https://github.com/forseti-security/policy-library/blob/master/docs/user_guide.md#how-to-use-terraform-validator
-  _LOGGER_NAME: scc_logging_test # default value
-  _CRITICAL: "50" # default value
-  _HIGH: "50" # default value
-  _MEDIUM: "50" # default value
+  _LOGGER_NAME: 'scc_logging_test_${BUILD_ID}'
+  _CRITICAL: "0" # default value
+  _HIGH: "10" # default value
+  _MEDIUM: "20" # default value
   _FUNCTION_NAME: "scc_helper_updated"
-  _FUNCTION_PROJECT_ID: ""
-  _SCOPED_PROJECT: ""
+  _FUNCTION_PROJECT_ID: "prj-b-cicd-91a1"
+  _SCOPED_PROJECT: "prj-b-cicd-91a1"
   
 steps:
 - id: 'setup'
@@ -89,8 +89,8 @@ steps:
     output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "scoped_project": "$_SCOPED_PROJECT", "critical_max": $_CRITICAL, "high_max": $_HIGH, "medium_max": $_MEDIUM }')
     if [[ "$output" == *"Error"* ]] 
     then
+        echo "Build Failed due to insecure infrastructure configuration. Details below"
         gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" 
-        echo "Build Failed"
         exit 1
     else
         gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" 
