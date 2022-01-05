@@ -18,5 +18,3 @@ user_email = ""
 dataset_id = ""
 table_id = ""
 environment = ""
-#default_region = ""
-#storage_bucket_labels = = {}

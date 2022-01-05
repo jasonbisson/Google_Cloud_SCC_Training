@@ -272,5 +272,6 @@ module "project_iam_binding" {
       "user:${var.user_email}"
     ]
   }
+  depends_on = [google_project_organization_policy.project_policy_list_allow_all]
 }
 
