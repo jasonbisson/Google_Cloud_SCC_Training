@@ -30,14 +30,8 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
    ```
    mv terraform.example.tfvars terraform.tfvars
    ```
-1. Update 4 required  variables
-   ```
-   project_id     = ""
-   bucket_name_prefix = ""
-   customer_group = ""
-   terraform_service_account = ""
-   ```
-
+1. Update required  variables
+   
 ## Deploy Insecure Infrastructure
 
 ### Deploy from a desktop
@@ -99,23 +93,3 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
    gcloud builds submit . --config=cloudbuild-tf-destroy.yaml --project your_build_project_id --substitutions=BRANCH_NAME="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')",_ARTIFACT_BUCKET_NAME='Your Artifact GCS Bucket',_STATE_BUCKET_NAME='Your Terraform GCS bucket',_DEFAULT_REGION='us-central1',_GAR_REPOSITORY='prj-tf-runners'
    ```
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## Inputs
-
-| Name                  | Description                                                         | Type          | Default         | Required |
-| --------------------- | ------------------------------------------------------------------- | ------------- | --------------- | :------: |
-| project_id            | The project id where the GCS bucket will be deployed.               | `string`      | n/a             |   yes    |
-| bucket_name_prefix    | Prefex of GCS bucket that will be deployed.                         | `string`      | n/a             |   yes    |
-| terraform_service_account    | Service account running the terraform deployment                         | `string`      | n/a             |   yes    |
-| customer_group        | Name of Google Group that will permission to manage the GCS bucket. | `string`      | n/a             |   yes    |
-| default_region        | Default region to create resources where applicable.                | `string`      | `"us-central1"` |    no    |
-| storage_bucket_labels | Labels for Storage bucket                                           | `map(string)` | n/a             |    no    |
-
-## Outputs
-
-| Name       | Description                                 |
-| ---------- | ------------------------------------------- |
-| gcs_bucket | The GCS bucket name that has been deployed. |
-
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
