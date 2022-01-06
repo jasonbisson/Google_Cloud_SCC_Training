@@ -85,15 +85,16 @@ steps:
   - '-c'
   - |-
     sleep 120
-    gcloud config set project ${_FUNCTION_PROJECT_ID}
-    output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "scoped_project": "$_SCOPED_PROJECT", "critical_max": $_CRITICAL, "high_max": $_HIGH, "medium_max": $_MEDIUM }')
+    gcloud config set project ${_FUNCTION_PROJECT_ID} -q
+    output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "scoped_project": "$_SCOPED_PROJECT", "critical_max": $_CRITICAL, "high_max": $_HIGH, "medium_max": $_MEDIUM }' -q)
     if [[ "$output" == *"Error"* ]] 
     then
-        echo "Build Failed due to insecure infrastructure configuration. Details below"
-        gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" 
+        echo -e '\033[1m Build failed due to insecure infrastructure configuration.\033[0m'
+        echo -e '\033[1m The details of insecure configuration are below.\033[0m'
+        gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" -q
         exit 1
     else
-        gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" 
+        gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" -q
         echo "Build Passed"
         
     fi

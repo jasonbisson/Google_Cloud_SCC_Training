@@ -73,6 +73,12 @@ resource "google_project_organization_policy" "project_policy_list_allow_all" {
   }
 }
 
+resource "time_sleep" "wait_for_org_policy" {
+  depends_on = [google_project_organization_policy.project_policy_list_allow_all]
+  create_duration = "90s"
+}
+
+
 
 /***********************************************
   GCS Bucket 
@@ -257,6 +263,7 @@ resource "google_storage_bucket_iam_binding" "customers" {
   members = [
     "group:${var.customer_group}", "allUsers"
   ]
+  depends_on = [time_sleep.wait_for_org_policy]
 }
 
 /******************************************
@@ -272,6 +279,6 @@ module "project_iam_binding" {
       "user:${var.user_email}"
     ]
   }
-  depends_on = [google_project_organization_policy.project_policy_list_allow_all]
+  depends_on = [time_sleep.wait_for_org_policy]
 }
 
