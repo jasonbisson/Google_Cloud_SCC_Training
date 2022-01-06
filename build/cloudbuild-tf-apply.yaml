@@ -20,8 +20,8 @@ substitutions:
   _HIGH: "10" # default value
   _MEDIUM: "20" # default value
   _FUNCTION_NAME: "scc_helper_updated"
-  _FUNCTION_PROJECT_ID: "prj-b-cicd-91a1"
-  _SCOPED_PROJECT: "prj-b-cicd-91a1"
+  _FUNCTION_PROJECT_ID: ""
+  _SCOPED_PROJECT: ""
   
 steps:
 - id: 'setup'
