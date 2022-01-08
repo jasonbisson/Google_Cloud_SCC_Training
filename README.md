@@ -44,7 +44,7 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
 
 1. Deploy Bootstrap environment from [Cloud Foundation Toolkit](https://github.com/terraform-google-modules/terraform-example-foundation/tree/master/0-bootstrap)
 
-1. Add cloud_source_repos to terraform.tfvars file to build gcp-scc repo in 0-bootstrap
+1. Add cloud_source_repos to terraform.tfvars file to build gcp-scc-training repo in 0-bootstrap
 
    ```
    cloud_source_repos = ["gcp-org", "gcp-environments", "gcp-networks", "gcp-projects", "gcp-scc-training"]
