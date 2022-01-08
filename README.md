@@ -47,19 +47,19 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
 1. Add cloud_source_repos to terraform.tfvars file to build gcp-scc repo in 0-bootstrap
 
    ```
-   cloud_source_repos = ["gcp-org", "gcp-environments", "gcp-networks", "gcp-projects", "gcp-scc"]
+   cloud_source_repos = ["gcp-org", "gcp-environments", "gcp-networks", "gcp-projects", "gcp-scc-training"]
    ```
 1. Run `terraform apply`
 
 #### Deploy from Cloud Build pipeline
 
-1. Clone the empty gcp-scc repo.
+1. Clone the empty gcp-scc-training repo.
    ```
-   gcloud source repos clone gcp-scc --project=YOUR_CLOUD_BUILD_PROJECT_ID_FROM_0-bootstrap
+   gcloud source repos clone gcp-scc-training --project=YOUR_CLOUD_BUILD_PROJECT_ID_FROM_0-bootstrap
    ```
 1. Navigate into the repo and change to a non-production branch.
    ```
-   cd gcp-scc
+   cd gcp-scc-training
    git checkout -b plan
    ```
 1. Copy the development environment directory and cloud build configuration files
