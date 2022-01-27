@@ -89,6 +89,7 @@ steps:
     output=$(gcloud functions call ${_FUNCTION_NAME} --data '{"logger_name":"$_LOGGER_NAME", "scoped_project": "$_SCOPED_PROJECT", "critical_max": $_CRITICAL, "high_max": $_HIGH, "medium_max": $_MEDIUM }' -q)
     if [[ "$output" == *"Error"* ]] 
     then
+        sleep 60
         echo -e '\033[1m Build failed due to insecure infrastructure configuration.\033[0m'
         echo -e '\033[1m The details of insecure configuration are below.\033[0m'
         gcloud logging read "logName=projects/${_FUNCTION_PROJECT_ID}/logs/${_LOGGER_NAME}" -q
