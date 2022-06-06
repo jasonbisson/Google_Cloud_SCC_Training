@@ -169,7 +169,7 @@ module "gcp-network" {
 
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 12.0"
+  version = "~> 19.0"
   project_id     = var.project_id 
   name              = var.environment
   region            = var.default_region
